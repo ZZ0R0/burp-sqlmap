@@ -1,0 +1,14 @@
+plugins { id 'java' }
+
+group = 'com.example'
+version = '0.2.0'
+
+repositories { mavenCentral() }
+
+dependencies {
+    compileOnly 'net.portswigger.burp.extensions:montoya-api:2025.10'
+}
+
+java {
+    toolchain { languageVersion = JavaLanguageVersion.of(21) }
+}
