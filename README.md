@@ -19,6 +19,20 @@ The store extension for this was clunky; this one is a thin, predictable wrapper
 hands a captured request straight to sqlmap, you keep one tab for options/output, and you
 never lose Burp's session/scope context.
 
+## How it works
+
+```mermaid
+flowchart LR
+    subgraph BURP["Burp Suite + this extension"]
+        REQ["a request in Proxy / Repeater"] -->|"right-click → Send to sqlmap (GUI)"| CTX["SqlmapExtension<br/>(context-menu provider)"]
+        CTX -->|"pre-fill a request file + options"| TAB["SqlmapPanel<br/>the 'sqlmap' suite tab — options + output"]
+        TAB -->|"Run / Stop"| CTX
+    end
+    CTX -->|"spawns: sqlmap -r request.txt &lt;options&gt;"| SQLMAP["sqlmap process"]
+    SQLMAP -->|stdout/stderr| TAB
+    SQLMAP -->|HTTP requests| TARGET[(target web app)]
+```
+
 ## Install
 
 **Requirements:** Burp Suite (Montoya API), JDK 17+ to build, `sqlmap` on `PATH`.
